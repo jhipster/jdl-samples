@@ -1,0 +1,57 @@
+entity Category {
+    linky String required,
+	description String required,
+	sortOrder Integer,
+    dateAdded LocalDate,
+    dateModified LocalDate,
+    status CategoryStatus
+}
+
+paginate Category with pagination
+service Category with serviceClass
+
+enum CategoryStatus {
+    AVAILABLE, RESTRICTED, DISABLED
+}
+
+relationship ManyToOne {
+	Category{parent} to Category
+}
+
+entity Product {
+	title String required,
+	keywords String,
+    description String,
+	rating Integer,
+    dateAdded LocalDate,
+    dateModified LocalDate
+}
+
+paginate Product with pagination
+
+relationship ManyToMany {
+	Category{product(title)} to Product{category}
+}
+
+entity Customer {
+	firstName String,
+    lastName String,
+    email String,
+    telephone String
+}
+
+paginate Customer with pagination
+paginate Address with pager
+paginate Product with infinite-scroll
+
+entity Address {
+	address1 String,
+    address2 String,
+    city String,
+    postcode String required maxlength(10),
+    country String required maxlength(2)
+}
+
+relationship OneToMany {
+	Customer{address} to Address{customer}
+}
