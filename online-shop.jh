@@ -1,7 +1,6 @@
 entity Category {
-    linky String required,
-	description String required,
-	sortOrder Integer,
+    description String required,
+    sortOrder Integer,
     dateAdded LocalDate,
     dateModified LocalDate,
     status CategoryStatus
@@ -19,10 +18,10 @@ relationship ManyToOne {
 }
 
 entity Product {
-	title String required,
-	keywords String,
+    title String required,
+    keywords String,
     description String,
-	rating Integer,
+    rating Integer,
     dateAdded LocalDate,
     dateModified LocalDate
 }
@@ -45,7 +44,7 @@ paginate Address with pager
 paginate Product with infinite-scroll
 
 entity Address {
-	address1 String,
+    address1 String,
     address2 String,
     city String,
     postcode String required maxlength(10),
@@ -53,7 +52,7 @@ entity Address {
 }
 
 relationship OneToMany {
-	Customer{address} to Address{customer}
+    Customer{address} to Address{customer}
 }
 
 entity Wishlist {
@@ -62,12 +61,9 @@ entity Wishlist {
 }
 
 relationship OneToMany {
-	Customer{whislist(title)} to Wishlist{customer}
+    Customer{whislist(title)} to Wishlist{customer}
 }
 
 relationship OneToMany {
-	Wishlist{product(title)} to Product{wishlist}
+    Wishlist{product(title)} to Product{wishlist}
 }
-
-
-
