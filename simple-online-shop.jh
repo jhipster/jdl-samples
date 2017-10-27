@@ -1,7 +1,6 @@
 entity Category {
-    linky String required,
-	description String required,
-	sortOrder Integer,
+    description String required,
+    sortOrder Integer,
     dateAdded LocalDate,
     dateModified LocalDate,
     status CategoryStatus
@@ -15,14 +14,14 @@ enum CategoryStatus {
 }
 
 relationship ManyToOne {
-	Category{parent} to Category
+    Category{parent} to Category
 }
 
 entity Product {
-	title String required,
-	keywords String,
+    title String required,
+    keywords String,
     description String,
-	rating Integer,
+    rating Integer,
     dateAdded LocalDate,
     dateModified LocalDate
 }
@@ -30,11 +29,11 @@ entity Product {
 paginate Product with pagination
 
 relationship ManyToMany {
-	Category{product(title)} to Product{category}
+    Category{product(title)} to Product{category}
 }
 
 entity Customer {
-	firstName String,
+    firstName String,
     lastName String,
     email String,
     telephone String
@@ -45,7 +44,7 @@ paginate Address with pager
 paginate Product with infinite-scroll
 
 entity Address {
-	address1 String,
+    address1 String,
     address2 String,
     city String,
     postcode String required maxlength(10),
@@ -53,5 +52,5 @@ entity Address {
 }
 
 relationship OneToMany {
-	Customer{address} to Address{customer}
+    Customer{address} to Address{customer}
 }
