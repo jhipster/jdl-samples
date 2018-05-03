@@ -6,7 +6,7 @@ entity Blog {
 entity Entry {
 	title String required,
 	content TextBlob required,
-	date ZonedDateTime required
+	date Instant required
 }
 
 entity Tag {
