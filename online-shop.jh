@@ -1,20 +1,13 @@
+enum CategoryStatus {
+    AVAILABLE, RESTRICTED, DISABLED
+}
+
 entity Category {
     description String required,
     sortOrder Integer,
     dateAdded LocalDate,
     dateModified LocalDate,
     status CategoryStatus
-}
-
-paginate Category with pagination
-service Category with serviceClass
-
-enum CategoryStatus {
-    AVAILABLE, RESTRICTED, DISABLED
-}
-
-relationship ManyToOne {
-	Category{parent} to Category
 }
 
 entity Product {
@@ -26,22 +19,12 @@ entity Product {
     dateModified LocalDate
 }
 
-paginate Product with pagination
-
-relationship ManyToMany {
-	Category{product(title)} to Product{category}
-}
-
 entity Customer {
 	firstName String,
     lastName String,
     email String,
     telephone String
 }
-
-paginate Customer with pagination
-paginate Address with pager
-paginate Product with infinite-scroll
 
 entity Address {
     address1 String,
@@ -51,19 +34,27 @@ entity Address {
     country String required maxlength(2)
 }
 
-relationship OneToMany {
-    Customer{address} to Address{customer}
-}
-
-entity Wishlist {
+entity WishList {
 	title String required,
     restricted Boolean
 }
 
 relationship OneToMany {
-    Customer{whislist(title)} to Wishlist{customer}
+    Customer{wishList(title)} to WishList{customer},
+    WishList{product(title)} to Product{wishList},
+    Customer{address} to Address{customer}
 }
 
-relationship OneToMany {
-    Wishlist{product(title)} to Product{wishlist}
+relationship ManyToOne {
+	Category{parent} to Category
 }
+
+relationship ManyToMany {
+	Category{product(title)} to Product{category}
+}
+
+paginate Customer, Product, Category with pagination
+paginate Address with pager
+paginate Product with infinite-scroll
+
+service Category with serviceClass
