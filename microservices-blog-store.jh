@@ -1,3 +1,9 @@
+
+/*
+ * This is a microservice blog sample with Gateway and two microservice applications
+ * This uses JHipster registry for service discovery and OIDC authentication
+ */
+ 
 application {
   config {
     baseName gateway,
