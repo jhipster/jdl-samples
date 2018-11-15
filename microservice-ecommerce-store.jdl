@@ -1,3 +1,9 @@
+
+/*
+ * This is a microservice e-commerce store sample with Gateway and two microservice applications
+ * This uses JHipster registry for service discovery
+ */
+ 
 application {
   config {
     baseName store,
