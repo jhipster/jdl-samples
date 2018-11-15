@@ -1,3 +1,8 @@
+
+/*
+ * This is the application and entity model for the 21-Points (https://github.com/mraible/21-points) application from Matt Raible 
+ */
+
 application {
   config {
     applicationType monolith,
