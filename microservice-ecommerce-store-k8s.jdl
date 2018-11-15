@@ -1,3 +1,8 @@
+/*
+ * This is a microservice e-commerce store sample with Gateway and two microservice applications
+ * This uses Istio for native kubernetes service discovery and JWT authentication
+ */
+ 
 application {
   config {
     baseName store,
