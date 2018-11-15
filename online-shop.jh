@@ -1,3 +1,8 @@
+
+//
+// An entity model for an online shop
+//
+
 enum CategoryStatus {
     AVAILABLE, RESTRICTED, DISABLED
 }
