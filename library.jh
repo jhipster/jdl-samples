@@ -1,0 +1,65 @@
+application {
+  config {
+    baseName library,
+    applicationType monolith,
+    authenticationType jwt
+    packageName com.sgaraba.library,
+    prodDatabaseType postgresql,
+    cacheProvider hazelcast,
+    buildTool maven,
+    clientFramework angular,
+    useSass true,
+    testFrameworks [protractor],
+	nativeLanguage en,
+    languages [en, ro, ru]
+  }
+  entities *
+}
+
+DEFAULT_MIN_LENGTH = 4
+DEFAULT_MAX_LENGTH = 50
+
+entity Publisher {
+  name String required unique maxlength(100)
+}
+
+entity Author {
+  firstName String required maxlength(DEFAULT_MAX_LENGTH)
+  lastName String required maxlength(DEFAULT_MAX_LENGTH)
+}
+
+entity Client {
+  firstName String required maxlength(DEFAULT_MAX_LENGTH)
+  lastName String  required maxlength(DEFAULT_MAX_LENGTH)
+  email String unique maxlength(DEFAULT_MAX_LENGTH)
+  address String maxlength(DEFAULT_MAX_LENGTH)
+  phone String maxlength(20)
+}
+
+entity Book{
+  isbn String required unique minlength(5) maxlength(13)
+  name String required maxlength(100)
+  publishYear String required minlength(DEFAULT_MIN_LENGTH) maxlength(DEFAULT_MIN_LENGTH)
+  copies Integer required
+  cover ImageBlob
+}
+
+entity BorrowedBook{
+  borrowDate LocalDate
+}
+
+relationship OneToOne {
+  Book{publisher(name)} to Publisher
+  BorrowedBook{book(name)} to Book
+  BorrowedBook{Client(email)} to Client
+}
+
+relationship ManyToMany {
+  Book{author(firstName)} to Author{book}
+}
+
+filter Book, Client, Author, BorrowedBook, Publisher
+
+paginate Book, Client, Author, BorrowedBook, Publisher with pagination
+
+service all with serviceImpl
