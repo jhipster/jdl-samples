@@ -14,13 +14,13 @@ application {
 }
 
 entity Blog {
-  name String required minlength(3),
+  name String required minlength(3)
   handle String required minlength(2)
 }
 
 entity Post {
-  title String required,
-  content TextBlob required,
+  title String required
+  content TextBlob required
   date Instant required
 }
 
@@ -29,7 +29,7 @@ entity Tag {
 }
 
 relationship ManyToOne {
-  Blog{user(login)} to User,
+  Blog{user(login)} to User
   Post{blog(name)} to Blog
 }
 
