@@ -25,23 +25,23 @@ application {
 // JDL definition for application 'TwentyOnePoints' generated with command 'jhipster export-jdl'
 
 entity BloodPressure {
-  timestamp ZonedDateTime required,
-  systolic Integer required,
+  timestamp ZonedDateTime required
+  systolic Integer required
   diastolic Integer required
 }
 entity Weight {
-  timestamp ZonedDateTime required,
+  timestamp ZonedDateTime required
   weight Double required
 }
 entity Points {
-  date LocalDate required,
-  exercise Integer,
-  meals Integer,
-  alcohol Integer,
+  date LocalDate required
+  exercise Integer
+  meals Integer
+  alcohol Integer
   notes String maxlength(140)
 }
 entity Preferences {
-  weeklyGoal Integer required min(10) max(21),
+  weeklyGoal Integer required min(10) max(21)
   weightUnits Units required
 }
 
@@ -54,8 +54,8 @@ relationship OneToOne {
   Preferences{user(login)} to User
 }
 relationship ManyToOne {
-  BloodPressure{user(login)} to User,
-  Weight{user(login)} to User,
+  BloodPressure{user(login)} to User
+  Weight{user(login)} to User
   Points{user(login)} to User
 }
 
