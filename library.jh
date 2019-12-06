@@ -39,7 +39,7 @@ entity Client {
 entity Book{
   isbn String required unique minlength(5) maxlength(13)
   name String required maxlength(100)
-  publishYear String required minlength(DEFAULT_MIN_LENGTH) maxlength(DEFAULT_MIN_LENGTH)
+  publishYear String required minlength(DEFAULT_MIN_LENGTH) maxlength(DEFAULT_MAX_LENGTH)
   copies Integer required
   cover ImageBlob
 }
