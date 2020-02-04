@@ -10,7 +10,14 @@ entity Ticket {
   title String required
   description String
   dueDate LocalDate
-  done Boolean
+  date ZonedDateTime
+  status Status
+  type Type
+  priority Priority
+}
+
+entity Attachment {
+  file Blob
 }
 
 relationship ManyToMany {
@@ -20,6 +27,44 @@ relationship ManyToMany {
 relationship ManyToOne {
   Ticket{project(name)} to Project
   Ticket{assignedTo(login)} to User
+  Ticket{reportedBy(login)} to User
+  Comment{child} to Comment{parent}
+  Comment to User
+  Attachment to Ticket
+}
+
+enum Status {
+  OPEN("Open")
+  WAITING_FOR_RESPONSE("Waiting for Customer Response")
+  CLOSED("Closed")
+  DUPLICATE("Duplicate")
+  IN_PROGRESS("In Progress")
+  REOPENED("Reopened")
+  CANNOT_REPRODUCE("Cannot Reproduce")
+  SOLVED("Solved")
+  WONT_IMPLEMENT("Won't Implement")
+  VERIFIED("Verified")
+  
+}
+
+enum Type {
+  BUG("Bug"),
+  FEATURE("Feature")
+}
+
+enum Priority {
+  HIGHEST("Highest")
+  HIGHER("Higher")
+  HI("Hi")
+  NORMAL("Normal")
+  LOW("Low")
+  LOWER("Lower")
+  LOWERST("Lowest")
+}
+
+entity Comment {
+  date ZonedDateTime
+  text String
 }
 
 paginate Ticket with pagination
