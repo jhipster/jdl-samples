@@ -56,7 +56,7 @@ enum Type {
 enum Priority {
   HIGHEST("Highest")
   HIGHER("Higher")
-  HI("Hi")
+  HIGH("High")
   NORMAL("Normal")
   LOW("Low")
   LOWER("Lower")
