@@ -1,0 +1,40 @@
+application {
+  config {
+    baseName bootifulmusic,
+    applicationType monolith,
+    packageName com.jhipster.demo.bootifulmusic,
+    databaseType neo4j,
+    devDatabaseType neo4j,
+    prodDatabaseType neo4j,
+    enableHibernateCache false,
+    testFrameworks [protractor]
+  }
+  entities *
+}
+
+entity Artist {
+	name String required
+}
+
+entity Genre {
+	name String required
+}
+
+entity Track {
+	name String required
+}
+
+entity Album {
+	name String required
+}
+
+relationship OneToOne {
+	Album{artist(name)} to Artist
+    Album{genre(name)} to Genre
+}
+
+relationship OneToMany {
+	Album{track(name)} to Track{album(name)}
+}
+
+paginate Artist, Genre, Track, Album with pagination
