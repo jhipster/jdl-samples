@@ -1,3 +1,9 @@
+application {
+  config {
+    prodDatabaseType postgresql,
+  }
+}
+
 enum CategoryStatus {
     AVAILABLE, RESTRICTED, DISABLED
 }
@@ -46,8 +52,7 @@ relationship ManyToMany {
     Category{product(title)} to Product{category}
 }
 
-paginate Customer, Product, Category with pagination
-paginate Address with pager
+paginate Address, Customer, Product, Category with pagination
 paginate Product with infinite-scroll
 
 service Category with serviceClass

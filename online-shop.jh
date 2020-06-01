@@ -3,6 +3,12 @@
 // An entity model for an online shop
 //
 
+application {
+  config {
+    prodDatabaseType postgresql,
+  }
+}
+
 enum CategoryStatus {
     AVAILABLE, RESTRICTED, DISABLED
 }
