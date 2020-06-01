@@ -6,6 +6,12 @@ entity Label {
   label String required minlength(3)
 }
 
+application {
+  config {
+    prodDatabaseType postgresql,
+  }
+}
+
 entity Ticket {
   title String required
   description String
@@ -29,9 +35,12 @@ relationship ManyToOne {
   Ticket{project(name)} to Project
   Ticket{assignedTo(login)} to User
   Ticket{reportedBy(login)} to User
-  Comment{child} to Comment{parent}
-  Comment to User
-  Attachment to Ticket
+  Comment{login} to User
+}
+
+relationship OneToMany {
+  Comment{parent} to Comment{child}
+  Ticket to Attachment 
 }
 
 enum Status {
