@@ -4,6 +4,11 @@ Will add relationships soon.
 3/6/2020
 */
 
+application {
+  config {
+    prodDatabaseType postgresql,
+  }
+}
 
 entity Customer {
 	id Integer required,
