@@ -224,8 +224,7 @@ deployment {
   appsFolders [store, invoice, notification, product]
   dockerRepositoryName "@Replace With Your Docker repo name@"
   serviceDiscoveryType no
-  istio autoInjection
-  istioRoute true
+  istio true
   kubernetesServiceType Ingress
   kubernetesNamespace jhipster
   ingressDomain "@Replace with your Istio IngressGateway's external IP@.nip.io"
