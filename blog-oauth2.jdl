@@ -1,0 +1,41 @@
+application {
+  config {
+    baseName blog,
+    applicationType monolith,
+    authenticationType oauth2,
+    packageName com.jhipster.demo.blog,
+    prodDatabaseType mysql,
+    cacheProvider hazelcast,
+    buildTool maven,
+    clientFramework angular,
+    useSass true,
+    testFrameworks [protractor]
+  }
+  entities *
+}
+
+entity Blog {
+  name String required minlength(3)
+  handle String required minlength(2)
+}
+
+entity Post {
+  title String required
+  content TextBlob required
+  date Instant required
+}
+
+entity Tag {
+  name String required minlength(2)
+}
+
+relationship ManyToOne {
+  Blog{user(login)} to User
+  Post{blog(name)} to Blog
+}
+
+relationship ManyToMany {
+  Post{tag(name)} to Tag{entry}
+}
+
+paginate Post, Tag with infinite-scroll
