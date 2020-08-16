@@ -10,7 +10,6 @@ application {
   entities *
 }
 
-
 entity SpaceEvent {
   name String required
   date LocalDate required
@@ -29,11 +28,9 @@ enum SpaceEventType {
   LANDING
 }
 
-
 relationship OneToOne {
   SpaceEvent{mission(name)} to Mission
 }
-
 
 paginate SpaceEvent with infinite-scroll
 paginate Mission with pagination
