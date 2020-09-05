@@ -10,6 +10,7 @@ application {
   config {
     prodDatabaseType postgresql,
   }
+  entities *
 }
 
 entity Ticket {
