@@ -7,7 +7,7 @@ application {
     authenticationType oauth2,
     prodDatabaseType postgresql,
     serviceDiscoveryType eureka,
-    testFrameworks [protractor]
+    testFrameworks [cypress]
   }
   entities Blog, Post, Tag, Product
 }
