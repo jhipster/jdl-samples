@@ -14,7 +14,6 @@ application {
     searchEngine elasticsearch,
     testFrameworks [protractor],
     clientFramework react,
-    useSass true,
     enableTranslation true,
     nativeLanguage en,
     languages [en, es]
