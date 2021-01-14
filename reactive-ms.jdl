@@ -82,3 +82,9 @@ paginate Product with pagination
 
 microservice Product with store
 microservice Blog, Post, Tag with blog
+
+deployment {
+  deploymentType docker-compose
+  appsFolders [gateway, blog, store]
+  dockerRepositoryName "mraible"
+}
