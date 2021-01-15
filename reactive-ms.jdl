@@ -8,7 +8,7 @@ application {
     clientFramework vue
     prodDatabaseType postgresql
     serviceDiscoveryType eureka
-    testFrameworks [cypress]
+    testFrameworks [protractor]
   }
   entities Blog, Post, Tag, Product
 }
