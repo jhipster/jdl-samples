@@ -1,12 +1,13 @@
 application {
   config {
-    baseName gateway,
-    reactive true,
-    packageName com.okta.developer.gateway,
-    applicationType gateway,
-    authenticationType oauth2,
-    prodDatabaseType postgresql,
-    serviceDiscoveryType eureka,
+    baseName gateway
+    reactive true
+    packageName com.okta.developer.gateway
+    applicationType gateway
+    authenticationType oauth2
+    clientFramework vue
+    prodDatabaseType postgresql
+    serviceDiscoveryType eureka
     testFrameworks [cypress]
   }
   entities Blog, Post, Tag, Product
@@ -14,16 +15,16 @@ application {
 
 application {
   config {
-    baseName blog,
+    baseName blog
     reactive true
-    packageName com.okta.developer.blog,
-    applicationType microservice,
-    authenticationType oauth2,
-    databaseType neo4j,
-    devDatabaseType neo4j,
-    prodDatabaseType neo4j,
-    enableHibernateCache false,
-    serverPort 8081,
+    packageName com.okta.developer.blog
+    applicationType microservice
+    authenticationType oauth2
+    databaseType neo4j
+    devDatabaseType neo4j
+    prodDatabaseType neo4j
+    enableHibernateCache false
+    serverPort 8081
     serviceDiscoveryType eureka
   }
   entities Blog, Post, Tag
@@ -31,30 +32,29 @@ application {
 
 application {
   config {
-    baseName store,
+    baseName store
     reactive true
-    packageName com.okta.developer.store,
-    applicationType microservice,
-    authenticationType oauth2,
-    databaseType mongodb,
-    devDatabaseType mongodb,
-    prodDatabaseType mongodb,
-    enableHibernateCache false,
-    searchEngine elasticsearch,
-    serverPort 8082,
+    packageName com.okta.developer.store
+    applicationType microservice
+    authenticationType oauth2
+    databaseType mongodb
+    devDatabaseType mongodb
+    prodDatabaseType mongodb
+    enableHibernateCache false
+    serverPort 8082
     serviceDiscoveryType eureka
   }
   entities Product
 }
 
 entity Blog {
-  name String required minlength(3),
+  name String required minlength(3)
   handle String required minlength(2)
 }
 
 entity Post {
-  title String required,
-  content TextBlob required,
+  title String required
+  content TextBlob required
   date Instant required
 }
 
@@ -63,13 +63,13 @@ entity Tag {
 }
 
 entity Product {
-  title String required,
-  price BigDecimal required min(0),
+  title String required
+  price BigDecimal required min(0)
   image ImageBlob
 }
 
 relationship ManyToOne {
-  Blog{user(login)} to User,
+  Blog{user(login)} to User
   Post{blog(name)} to Blog
 }
 
@@ -82,3 +82,9 @@ paginate Product with pagination
 
 microservice Product with store
 microservice Blog, Post, Tag with blog
+
+deployment {
+  deploymentType docker-compose
+  appsFolders [gateway, blog, store]
+  dockerRepositoryName "mraible"
+}
