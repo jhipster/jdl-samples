@@ -5,6 +5,7 @@ application {
     packageName com.okta.developer.gateway
     applicationType gateway
     authenticationType oauth2
+    buildTool gradle
     clientFramework vue
     prodDatabaseType postgresql
     serviceDiscoveryType eureka
@@ -20,6 +21,7 @@ application {
     packageName com.okta.developer.blog
     applicationType microservice
     authenticationType oauth2
+    buildTool gradle
     databaseType neo4j
     devDatabaseType neo4j
     prodDatabaseType neo4j
@@ -37,6 +39,7 @@ application {
     packageName com.okta.developer.store
     applicationType microservice
     authenticationType oauth2
+    buildTool gradle
     databaseType mongodb
     devDatabaseType mongodb
     prodDatabaseType mongodb
