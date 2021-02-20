@@ -5,31 +5,32 @@
  
 application {
   config {
-    baseName store,
-    applicationType gateway,
-    packageName com.jhipster.demo.store,
-    serviceDiscoveryType no,
-    authenticationType jwt,
-    prodDatabaseType mysql,
-    cacheProvider hazelcast,
-    buildTool maven,
-    clientFramework react,
-    useSass true,
+    baseName store
+    applicationType gateway
+    packageName com.jhipster.demo.store
+    serviceDiscoveryType no
+    authenticationType jwt
+    prodDatabaseType mysql
+    cacheProvider no
+    buildTool maven
+    clientFramework react
+    useSass true
     testFrameworks [protractor]
+    reactive true
   }
   entities *
 }
 
 application {
   config {
-    baseName invoice,
-    applicationType microservice,
-    packageName com.jhipster.demo.invoice,
-    serviceDiscoveryType no,
-    authenticationType jwt,
-    prodDatabaseType mysql,
-    buildTool maven,
-    serverPort 8081,
+    baseName invoice
+    applicationType microservice
+    packageName com.jhipster.demo.invoice
+    serviceDiscoveryType no
+    authenticationType jwt
+    prodDatabaseType mysql
+    buildTool maven
+    serverPort 8081
     skipUserManagement true
   }
   entities Invoice, Shipment
@@ -37,18 +38,18 @@ application {
 
 application {
   config {
-    baseName notification,
-    applicationType microservice,
-    packageName com.jhipster.demo.notification,
-    serviceDiscoveryType no,
-    authenticationType jwt,
-    databaseType mongodb,
-    prodDatabaseType mongodb,
-    devDatabaseType mongodb,
-    cacheProvider no,
-    enableHibernateCache false,
-    buildTool maven,
-    serverPort 8082,
+    baseName notification
+    applicationType microservice
+    packageName com.jhipster.demo.notification
+    serviceDiscoveryType no
+    authenticationType jwt
+    databaseType mongodb
+    prodDatabaseType mongodb
+    devDatabaseType mongodb
+    cacheProvider no
+    enableHibernateCache false
+    buildTool maven
+    serverPort 8082
     skipUserManagement true
   }
   entities Notification

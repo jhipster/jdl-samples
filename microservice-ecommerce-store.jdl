@@ -6,31 +6,32 @@
  
 application {
   config {
-    baseName store,
-    applicationType gateway,
-    packageName com.jhipster.demo.store,
-    serviceDiscoveryType eureka,
-    authenticationType jwt,
-    prodDatabaseType mysql,
-    cacheProvider hazelcast,
-    buildTool gradle,
-    clientFramework react,
-    useSass true,
+    baseName store
+    applicationType gateway
+    packageName com.jhipster.demo.store
+    serviceDiscoveryType eureka
+    authenticationType jwt
+    prodDatabaseType mysql
+    cacheProvider no
+    buildTool gradle
+    clientFramework react
+    useSass true
     testFrameworks [protractor]
+    reactive true
   }
   entities *
 }
 
 application {
   config {
-    baseName invoice,
-    applicationType microservice,
-    packageName com.jhipster.demo.invoice,
-    serviceDiscoveryType eureka,
-    authenticationType jwt,
-    prodDatabaseType mysql,
-    buildTool gradle,
-    serverPort 8081,
+    baseName invoice
+    applicationType microservice
+    packageName com.jhipster.demo.invoice
+    serviceDiscoveryType eureka
+    authenticationType jwt
+    prodDatabaseType mysql
+    buildTool gradle
+    serverPort 8081
     skipUserManagement true
   }
   entities Invoice, Shipment
@@ -38,18 +39,18 @@ application {
 
 application {
   config {
-    baseName notification,
-    applicationType microservice,
-    packageName com.jhipster.demo.notification,
-    serviceDiscoveryType eureka,
-    authenticationType jwt,
-    databaseType mongodb,
-    prodDatabaseType mongodb,
-    devDatabaseType mongodb,
-    cacheProvider no,
-    enableHibernateCache false,
-    buildTool gradle,
-    serverPort 8082,
+    baseName notification
+    applicationType microservice
+    packageName com.jhipster.demo.notification
+    serviceDiscoveryType eureka
+    authenticationType jwt
+    databaseType mongodb
+    prodDatabaseType mongodb
+    devDatabaseType mongodb
+    cacheProvider no
+    enableHibernateCache false
+    buildTool gradle
+    serverPort 8082
     skipUserManagement true
   }
   entities Notification
