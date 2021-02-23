@@ -6,27 +6,28 @@
  
 application {
   config {
-    baseName gateway,
-    packageName com.okta.developer.gateway,
-    applicationType gateway,
-    authenticationType oauth2,
-    prodDatabaseType postgresql,
-    searchEngine elasticsearch,
-    serviceDiscoveryType eureka,
+    baseName gateway
+    packageName com.okta.developer.gateway
+    applicationType gateway
+    authenticationType oauth2
+    prodDatabaseType postgresql
+    searchEngine elasticsearch
+    serviceDiscoveryType eureka
     testFrameworks [protractor]
+    reactive true
   }
   entities Blog, Post, Tag, Product
 }
 
 application {
   config {
-    baseName blog,
-    packageName com.okta.developer.blog,
-    applicationType microservice,
-    authenticationType oauth2,
-    prodDatabaseType postgresql,
-    searchEngine elasticsearch,
-    serverPort 8081,
+    baseName blog
+    packageName com.okta.developer.blog
+    applicationType microservice
+    authenticationType oauth2
+    prodDatabaseType postgresql
+    searchEngine elasticsearch
+    serverPort 8081
     serviceDiscoveryType eureka
   }
   entities Blog, Post, Tag
@@ -34,29 +35,29 @@ application {
 
 application {
   config {
-    baseName store,
-    packageName com.okta.developer.store,
-    applicationType microservice,
-    authenticationType oauth2,
-    databaseType mongodb,
-    devDatabaseType mongodb,
-    prodDatabaseType mongodb,
-    enableHibernateCache false,
-    searchEngine elasticsearch,
-    serverPort 8082,
+    baseName store
+    packageName com.okta.developer.store
+    applicationType microservice
+    authenticationType oauth2
+    databaseType mongodb
+    devDatabaseType mongodb
+    prodDatabaseType mongodb
+    enableHibernateCache false
+    searchEngine elasticsearch
+    serverPort 8082
     serviceDiscoveryType eureka
   }
   entities Product
 }
 
 entity Blog {
-  name String required minlength(3),
+  name String required minlength(3)
   handle String required minlength(2)
 }
 
 entity Post {
-  title String required,
-  content TextBlob required,
+  title String required
+  content TextBlob required
   date Instant required
 }
 
@@ -65,8 +66,8 @@ entity Tag {
 }
 
 entity Product {
-  title String required,
-  price BigDecimal required min(0),
+  title String required
+  price BigDecimal required min(0)
   image ImageBlob
 }
 
