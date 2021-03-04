@@ -75,7 +75,9 @@ relationship ManyToOne {
 }
 
 relationship OneToMany {
-    CustomerDetails{cart} to ShoppingCart{customerDetails required} , ShoppingCart{order} to ProductOrder{cart required} , ProductCategory{product} to Product{productCategory(name) required}
+    CustomerDetails{cart} to ShoppingCart{customerDetails required}, 
+    ShoppingCart{order} to ProductOrder{cart required}, 
+    ProductCategory{product} to Product{productCategory(name) required}
 }
 
 service * with serviceClass
