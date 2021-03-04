@@ -1,0 +1,82 @@
+application {
+  config {
+    baseName store
+    packageName com.jhipster.demo.store
+    authenticationType jwt
+    prodDatabaseType mysql
+    buildTool gradle
+    clientFramework react
+    enableTranslation true
+    nativeLanguage en
+    languages [en, nl]
+  }
+  entities *
+}
+
+
+/** Product sold by the Online store */
+entity Product {
+    name String required
+    description String
+    price BigDecimal required min(0)
+    size Size required
+    image ImageBlob
+}
+
+enum Size {
+    S, M, L, XL, XXL
+}
+
+entity ProductCategory {
+    name String required
+    description String
+}
+
+entity CustomerDetails {
+    gender Gender required
+    phone String required
+    addressLine1 String required
+    addressLine2 String
+    city String required
+    country String required
+}
+
+enum Gender {
+    MALE, FEMALE, OTHER
+}
+
+entity ShoppingCart {
+    placedDate Instant required
+    status OrderStatus required
+    totalPrice BigDecimal required min(0)
+    paymentMethod PaymentMethod required
+    paymentReference String
+}
+
+enum OrderStatus {
+    COMPLETED, PAID, PENDING, CANCELLED, REFUNDED
+}
+
+enum PaymentMethod {
+    CREDIT_CARD(card), IDEAL(ideal)
+}
+
+entity ProductOrder {
+    quantity Integer required min(0)
+    totalPrice BigDecimal required min(0)
+}
+
+relationship OneToOne {
+    CustomerDetails{user(login) required} to User
+}
+
+relationship ManyToOne {
+    ProductOrder{product(name) required} to Product
+}
+
+relationship OneToMany {
+    CustomerDetails{cart} to ShoppingCart{customerDetails required} , ShoppingCart{order} to ProductOrder{cart required} , ProductCategory{product} to Product{productCategory(name) required}
+}
+
+service * with serviceClass
+paginate Product, CustomerDetails, ProductCategory with pagination
