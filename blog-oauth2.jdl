@@ -1,13 +1,13 @@
 application {
   config {
     baseName blog,
-    applicationType monolith,
-    authenticationType oauth2,
-    packageName com.jhipster.demo.blog,
-    prodDatabaseType mysql,
-    cacheProvider hazelcast,
-    buildTool maven,
-    clientFramework angular,
+    applicationType monolith
+    authenticationType oauth2
+    packageName com.jhipster.demo.blog
+    prodDatabaseType mysql
+    cacheProvider ehcache
+    buildTool maven
+    clientFramework angular
     testFrameworks [protractor]
   }
   entities *
