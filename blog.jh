@@ -1,13 +1,10 @@
 application {
   config {
-    baseName blog,
-    applicationType monolith,
-    packageName com.jhipster.demo.blog,
-    prodDatabaseType mysql,
-    cacheProvider hazelcast,
+    baseName blog
+    applicationType monolith
+    packageName com.jhipster.demo.blog
     buildTool maven,
-    clientFramework react,
-    testFrameworks [protractor]
+    testFrameworks [cypress]
   }
   entities *
 }
