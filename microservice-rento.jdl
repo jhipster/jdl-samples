@@ -1,0 +1,137 @@
+
+application {
+  config {
+    baseName gateway // (1)
+    reactive true // (2)
+    packageName com.michael.developer.gateway
+    applicationType gateway
+    authenticationType oauth2 // (3)
+    buildTool maven // (4)
+    clientFramework angular // (5)
+    prodDatabaseType postgresql
+    serviceDiscoveryType eureka
+    testFrameworks [cypress] // (6)
+  }
+  entities Blog, Post, Tag, Property
+}
+
+application {
+  config {
+    baseName blog
+    reactive true
+    packageName com.michael.developer.blog
+    applicationType microservice // (7)
+    authenticationType oauth2
+    buildTool maven
+    databaseType mongodb
+    devDatabaseType mongodb
+    prodDatabaseType mongodb
+    enableHibernateCache false
+    serverPort 8081
+    serviceDiscoveryType eureka
+  }
+  entities Blog, Post, Tag
+}
+
+application {
+  config {
+    baseName store
+    reactive true
+    packageName com.michael.developer.store
+    applicationType microservice
+    authenticationType oauth2
+    buildTool maven
+    databaseType mongodb
+    devDatabaseType mongodb
+    prodDatabaseType mongodb
+    enableHibernateCache false
+    serverPort 8082
+    serviceDiscoveryType eureka
+  }
+  entities Property, Image
+}
+application {
+  config {
+    baseName notification
+    applicationType microservice
+    packageName com.michael.developer.notification  
+    authenticationType oauth2
+    buildTool maven
+    databaseType mongodb
+    prodDatabaseType mongodb
+    devDatabaseType mongodb
+    cacheProvider no
+    enableHibernateCache false
+    buildTool maven
+    serverPort 8083
+    skipUserManagement true
+  }
+  entities Notification
+}
+
+
+
+entity Blog {
+  name String required minlength(3)
+  handle String required minlength(2)
+}
+
+entity Post {
+  title String required
+  content TextBlob required
+  date Instant required
+  
+}
+
+entity Tag {
+  name String required minlength(2)
+}
+
+entity Property {
+  address String required
+  description String required minlength(10)
+  bathNo Integer required min(1)
+  roomNo Integer required min(1)
+  isAvailable Boolean
+  price BigDecimal required min(0)
+  image ImageBlob
+   format PropertyType required
+}
+
+enum PropertyType {
+    HOUSE, APARTMENT
+}
+
+@embedded
+entity Image {
+  imageUrl String
+}
+
+relationship ManyToOne {
+  Blog{user(login)} to User
+  Property{user(login)} to User
+  Post{blog(name)} to Blog
+}
+
+relationship ManyToMany {
+  Post{tag(name)} to Tag{post}
+}
+relationship OneToMany {
+  Property to Image
+}
+paginate Post, Tag with infinite-scroll
+paginate Product with pagination
+
+/* Entities for notification microservice */
+entity Notification {
+    date Instant required
+    details String
+    sentDate Instant required
+    format NotificationType required
+    userId Long required
+    propertyId Long required
+}
+enum NotificationType {
+    EMAIL, SMS
+}
+microservice Notification with notification
