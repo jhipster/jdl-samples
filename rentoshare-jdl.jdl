@@ -1,26 +1,27 @@
 
 application {
   config {
-    baseName gateway // (1)
-    reactive true // (2)
+    baseName gateway
+    reactive true 
     packageName com.michael.developer.gateway
     applicationType gateway
-    authenticationType oauth2 // (3)
-    buildTool maven // (4)
-    clientFramework angular // (5)
+    authenticationType oauth2
+    buildTool maven 
+    clientFramework angular 
     prodDatabaseType postgresql
     serviceDiscoveryType eureka
-    testFrameworks [cypress] // (6)
+    testFrameworks [cypress] 
   }
   entities Blog, Post, Tag, Property
 }
+
 
 application {
   config {
     baseName blog
     reactive true
     packageName com.michael.developer.blog
-    applicationType microservice // (7)
+    applicationType microservice
     authenticationType oauth2
     buildTool maven
     databaseType mongodb
@@ -32,6 +33,7 @@ application {
   }
   entities Blog, Post, Tag
 }
+
 
 application {
   config {
@@ -50,6 +52,8 @@ application {
   }
   entities Property, Image
 }
+
+
 application {
   config {
     baseName notification
@@ -83,13 +87,14 @@ entity Post {
   
 }
 
+
 entity Tag {
   name String required minlength(2)
 }
 
 entity Property {
   address String required
-  description String required min(10)
+  description String required minlength(10)
   bathNo Integer required min(1)
   roomNo Integer required min(1)
   isAvailable Boolean
@@ -113,9 +118,11 @@ relationship ManyToOne {
   Post{blog(name)} to Blog
 }
 
+
 relationship ManyToMany {
   Post{tag(name)} to Tag{post}
 }
+
 relationship OneToMany {
   Property to Image
 }
