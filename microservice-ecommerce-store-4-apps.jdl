@@ -14,7 +14,6 @@ application {
     cacheProvider no
     buildTool gradle
     clientFramework react
-    useSass true
     testFrameworks [protractor]
     reactive true
   }
