@@ -12,13 +12,10 @@ application {
     packageName com.jhipster.demo.store
     serviceDiscoveryType no
     authenticationType jwt
-    prodDatabaseType mysql
-    cacheProvider no
+    prodDatabaseType postgresql
+    cacheProvider hazelcast
     buildTool gradle
     clientFramework react
-    useSass true
-    testFrameworks [protractor]
-    reactive true
   }
   entities *
 }
@@ -31,7 +28,7 @@ application {
     packageName com.jhipster.demo.product
     serviceDiscoveryType no
     authenticationType jwt
-    prodDatabaseType mysql
+    prodDatabaseType postgresql
     cacheProvider hazelcast
     buildTool gradle
     serverPort 8081
@@ -46,7 +43,7 @@ application {
     packageName com.jhipster.demo.invoice
     serviceDiscoveryType no
     authenticationType jwt
-    prodDatabaseType mysql
+    prodDatabaseType postgresql
     buildTool gradle
     serverPort 8082
   }
@@ -108,7 +105,7 @@ entity Product {
     name String required
     description String
     price BigDecimal required min(0)
-    productSize Size required
+    itemSize Size required
     image ImageBlob
 }
 
@@ -229,4 +226,5 @@ deployment {
   kubernetesServiceType Ingress
   kubernetesNamespace jhipster
   ingressDomain "@Replace with your Istio IngressGateway's external IP@.nip.io"
+  ingressType gke
 }
