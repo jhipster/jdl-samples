@@ -7,7 +7,7 @@ application {
     devDatabaseType neo4j,
     prodDatabaseType neo4j,
     enableHibernateCache false,
-    testFrameworks [protractor]
+    testFrameworks [cypress]
   }
   entities *
 }

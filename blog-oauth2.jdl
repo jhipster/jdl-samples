@@ -8,7 +8,7 @@ application {
     cacheProvider ehcache
     buildTool maven
     clientFramework angular
-    testFrameworks [protractor]
+    testFrameworks [cypress]
   }
   entities *
 }

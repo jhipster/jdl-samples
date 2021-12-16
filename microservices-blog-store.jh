@@ -13,7 +13,7 @@ application {
     prodDatabaseType postgresql
     searchEngine elasticsearch
     serviceDiscoveryType eureka
-    testFrameworks [protractor]
+    testFrameworks [cypress]
     reactive true
   }
   entities Blog, Post, Tag, Product
