@@ -14,7 +14,7 @@ application {
     cacheProvider no
     buildTool gradle
     clientFramework react
-    testFrameworks [protractor]
+    testFrameworks [cypress]
     reactive true
   }
   entities *

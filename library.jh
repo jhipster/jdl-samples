@@ -9,7 +9,7 @@ application {
     buildTool maven,
     clientFramework angular,
     useSass true,
-    testFrameworks [protractor],
+    testFrameworks [cypress],
 	nativeLanguage en,
     languages [en, ro, ru]
   }

@@ -15,7 +15,7 @@ application {
     buildTool maven
     clientFramework react
     useSass true
-    testFrameworks [protractor]
+    testFrameworks [cypress]
     reactive true
   }
   entities *

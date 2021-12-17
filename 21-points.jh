@@ -12,7 +12,7 @@ application {
     prodDatabaseType postgresql,
     buildTool gradle,
     searchEngine elasticsearch,
-    testFrameworks [protractor],
+    testFrameworks [cypress],
     clientFramework react,
     enableTranslation true,
     nativeLanguage en,

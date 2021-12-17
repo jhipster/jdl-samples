@@ -5,7 +5,7 @@ application {
     authenticationType oauth2
     packageName org.jhipster.space
     prodDatabaseType postgresql
-    testFrameworks [protractor]
+    testFrameworks [cypress]
   }
   entities *
 }
