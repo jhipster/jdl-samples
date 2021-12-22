@@ -85,3 +85,4 @@ paginate Product with pagination
 
 microservice Product with store
 microservice Blog, Post, Tag with blog
+search Blog, Post, Tag, Product with elasticsearch
