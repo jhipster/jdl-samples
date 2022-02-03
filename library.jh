@@ -8,7 +8,6 @@ application {
     cacheProvider hazelcast,
     buildTool maven,
     clientFramework angular,
-    useSass true,
     testFrameworks [cypress],
 	nativeLanguage en,
     languages [en, ro, ru]
