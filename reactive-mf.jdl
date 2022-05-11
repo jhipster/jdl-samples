@@ -10,8 +10,8 @@ application {
     prodDatabaseType postgresql
     serviceDiscoveryType eureka
     testFrameworks [cypress]
+    microfrontends [blog, store]
   }
-  entities Blog, Post, Tag, Product
 }
 
 application {
