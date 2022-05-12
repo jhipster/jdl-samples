@@ -10,8 +10,8 @@ application {
     prodDatabaseType postgresql
     serviceDiscoveryType eureka
     testFrameworks [cypress]
+    microfrontends [blog, store]
   }
-  entities Blog, Post, Tag, Product
 }
 
 application {
@@ -86,9 +86,6 @@ relationship ManyToMany {
 
 paginate Post, Tag with infinite-scroll
 paginate Product with pagination
-
-microservice Product with store
-microservice Blog, Post, Tag with blog
 
 deployment {
   deploymentType docker-compose
