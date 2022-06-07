@@ -93,3 +93,11 @@ deployment {
   dockerRepositoryName "mraible"
 }
 
+deployment {
+  deploymentType kubernetes
+  appsFolders [gateway, blog, store]
+  clusteredDbApps [store]
+  kubernetesNamespace demo
+  serviceDiscoveryType eureka
+  dockerRepositoryName "mraible"
+}
