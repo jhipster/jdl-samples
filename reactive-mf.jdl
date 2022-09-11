@@ -8,7 +8,7 @@ application {
     buildTool gradle
     clientFramework react
     prodDatabaseType postgresql
-    serviceDiscoveryType eureka
+    serviceDiscoveryType consul
     testFrameworks [cypress]
     microfrontends [blog, store]
   }
@@ -28,7 +28,7 @@ application {
     prodDatabaseType neo4j
     enableHibernateCache false
     serverPort 8081
-    serviceDiscoveryType eureka
+    serviceDiscoveryType consul
     testFrameworks [cypress]
   }
   entities Blog, Post, Tag
@@ -48,7 +48,7 @@ application {
     prodDatabaseType mongodb
     enableHibernateCache false
     serverPort 8082
-    serviceDiscoveryType eureka
+    serviceDiscoveryType consul
     testFrameworks [cypress]
   }
   entities Product
@@ -89,6 +89,7 @@ paginate Product with pagination
 
 deployment {
   deploymentType docker-compose
+  serviceDiscoveryType consul
   appsFolders [gateway, blog, store]
   dockerRepositoryName "mraible"
 }
@@ -98,6 +99,8 @@ deployment {
   appsFolders [gateway, blog, store]
   clusteredDbApps [store]
   kubernetesNamespace demo
-  serviceDiscoveryType eureka
+  kubernetesUseDynamicStorage true
+  kubernetesStorageClassName ""
+  serviceDiscoveryType consul
   dockerRepositoryName "mraible"
 }
