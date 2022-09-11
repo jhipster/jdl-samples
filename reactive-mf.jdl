@@ -99,6 +99,8 @@ deployment {
   appsFolders [gateway, blog, store]
   clusteredDbApps [store]
   kubernetesNamespace demo
+  kubernetesUseDynamicStorage true
+  kubernetesStorageClassName ""
   serviceDiscoveryType consul
   dockerRepositoryName "mraible"
 }
