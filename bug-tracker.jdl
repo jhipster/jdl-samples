@@ -34,9 +34,9 @@ relationship ManyToMany {
 
 relationship ManyToOne {
   Ticket{project(name)} to Project
-  Ticket{assignedTo(login)} to User
-  Ticket{reportedBy(login)} to User
-  Comment{login} to User
+  Ticket{assignedTo(login)} to User with builtInEntity
+  Ticket{reportedBy(login)} to User with builtInEntity
+  Comment{login} to User with builtInEntity
 }
 
 relationship OneToMany {
