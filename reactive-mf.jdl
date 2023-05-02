@@ -24,8 +24,6 @@ application {
     buildTool gradle
     clientFramework react
     databaseType neo4j
-    devDatabaseType neo4j
-    prodDatabaseType neo4j
     enableHibernateCache false
     serverPort 8081
     serviceDiscoveryType consul
@@ -44,8 +42,6 @@ application {
     buildTool gradle
     clientFramework react
     databaseType mongodb
-    devDatabaseType mongodb
-    prodDatabaseType mongodb
     enableHibernateCache false
     serverPort 8082
     serviceDiscoveryType consul
@@ -76,7 +72,7 @@ entity Product {
 }
 
 relationship ManyToOne {
-  Blog{user(login)} to User
+  Blog{user(login)} to User with builtInEntity
   Post{blog(name)} to Blog
 }
 
