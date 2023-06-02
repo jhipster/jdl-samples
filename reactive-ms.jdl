@@ -23,8 +23,6 @@ application {
     authenticationType oauth2
     buildTool gradle
     databaseType neo4j
-    devDatabaseType neo4j
-    prodDatabaseType neo4j
     enableHibernateCache false
     serverPort 8081
     serviceDiscoveryType eureka
@@ -41,8 +39,6 @@ application {
     authenticationType oauth2
     buildTool gradle
     databaseType mongodb
-    devDatabaseType mongodb
-    prodDatabaseType mongodb
     enableHibernateCache false
     serverPort 8082
     serviceDiscoveryType eureka
@@ -72,7 +68,7 @@ entity Product {
 }
 
 relationship ManyToOne {
-  Blog{user(login)} to User
+  Blog{user(login)} to User with builtInEntity
   Post{blog(name)} to Blog
 }
 
