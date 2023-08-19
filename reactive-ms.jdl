@@ -8,7 +8,7 @@ application {
     buildTool gradle
     clientFramework vue
     prodDatabaseType postgresql
-    serviceDiscoveryType eureka
+    serviceDiscoveryType consul
     testFrameworks [cypress]
   }
   entities Blog, Post, Tag, Product
@@ -27,7 +27,7 @@ application {
     prodDatabaseType neo4j
     enableHibernateCache false
     serverPort 8081
-    serviceDiscoveryType eureka
+    serviceDiscoveryType consul
   }
   entities Blog, Post, Tag
 }
@@ -45,7 +45,7 @@ application {
     prodDatabaseType mongodb
     enableHibernateCache false
     serverPort 8082
-    serviceDiscoveryType eureka
+    serviceDiscoveryType consul
   }
   entities Product
 }
@@ -88,7 +88,7 @@ microservice Blog, Post, Tag with blog
 
 deployment {
   deploymentType docker-compose
-  serviceDiscoveryType eureka
+  serviceDiscoveryType consul
   appsFolders [gateway, blog, store]
   dockerRepositoryName "mraible"
 }
