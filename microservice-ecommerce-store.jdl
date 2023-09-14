@@ -1,7 +1,7 @@
 
 /*
  * This is a microservice e-commerce store sample with Gateway and two microservice applications
- * This uses JHipster registry for service discovery
+ * This uses Consul for service discovery
  */
  
 application {
@@ -9,7 +9,7 @@ application {
     baseName store
     applicationType gateway
     packageName com.jhipster.demo.store
-    serviceDiscoveryType eureka
+    serviceDiscoveryType consul
     authenticationType jwt
     prodDatabaseType mysql
     cacheProvider no
@@ -26,7 +26,7 @@ application {
     baseName invoice
     applicationType microservice
     packageName com.jhipster.demo.invoice
-    serviceDiscoveryType eureka
+    serviceDiscoveryType consul
     authenticationType jwt
     prodDatabaseType mysql
     buildTool gradle
@@ -41,7 +41,7 @@ application {
     baseName notification
     applicationType microservice
     packageName com.jhipster.demo.notification
-    serviceDiscoveryType eureka
+    serviceDiscoveryType consul
     authenticationType jwt
     databaseType mongodb
     prodDatabaseType mongodb

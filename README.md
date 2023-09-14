@@ -1,6 +1,7 @@
-# Sample JDL files for JHipster
+# Sample JDL files for JHipster v8
 
-This repository is a showcase of JDL schema files that are generated from JDL Studio.
+
+This repository is a showcase of JDL schema files.
 
 Please add your own or create an issue if you'd like to see a particular one added.
 
