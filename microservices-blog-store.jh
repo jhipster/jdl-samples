@@ -1,7 +1,7 @@
 
 /*
  * This is a microservice blog sample with Gateway and two microservice applications
- * This uses Consul for service discovery and OIDC authentication
+ * This uses JHipster registry for service discovery and OIDC authentication
  */
  
 application {
@@ -12,7 +12,7 @@ application {
     authenticationType oauth2
     prodDatabaseType postgresql
     searchEngine elasticsearch
-    serviceDiscoveryType consul
+    serviceDiscoveryType eureka
     testFrameworks [cypress]
     reactive true
   }
@@ -28,7 +28,7 @@ application {
     prodDatabaseType postgresql
     searchEngine elasticsearch
     serverPort 8081
-    serviceDiscoveryType consul
+    serviceDiscoveryType eureka
   }
   entities Blog, Post, Tag
 }
@@ -45,7 +45,7 @@ application {
     enableHibernateCache false
     searchEngine elasticsearch
     serverPort 8082
-    serviceDiscoveryType consul
+    serviceDiscoveryType eureka
   }
   entities Product
 }

@@ -1,6 +1,6 @@
 /*
  * This is a microservice e-commerce store sample with Gateway and three microservice applications.
- * This uses Consul for service discovery and OIDC authentication.
+ * This uses eureka for service discovery and OIDC authentication.
  * This also creates the required Kubernetes deployment manifests.
  */
  
@@ -9,7 +9,7 @@ application {
     baseName store
     applicationType gateway
     packageName com.okta.developer.store
-    serviceDiscoveryType consul
+    serviceDiscoveryType eureka
     authenticationType oauth2
     prodDatabaseType postgresql
     cacheProvider hazelcast
@@ -26,7 +26,7 @@ application {
     baseName product
     applicationType microservice
     packageName com.okta.developer.product
-    serviceDiscoveryType consul
+    serviceDiscoveryType eureka
     authenticationType oauth2
     prodDatabaseType postgresql
     cacheProvider hazelcast
@@ -42,7 +42,7 @@ application {
     baseName invoice
     applicationType microservice
     packageName com.okta.developer.invoice
-    serviceDiscoveryType consul
+    serviceDiscoveryType eureka
     authenticationType oauth2
     prodDatabaseType postgresql
     buildTool gradle
@@ -57,7 +57,7 @@ application {
     baseName notification
     applicationType microservice
     packageName com.okta.developer.notification
-    serviceDiscoveryType consul
+    serviceDiscoveryType eureka
     authenticationType oauth2
     databaseType mongodb
     cacheProvider no
@@ -224,7 +224,7 @@ deployment {
   deploymentType kubernetes
   appsFolders [store, invoice, notification, product]
   dockerRepositoryName "deepu105" // @Replace With Your Docker repo name@
-  serviceDiscoveryType consul
+  serviceDiscoveryType eureka
   kubernetesServiceType LoadBalancer
   kubernetesNamespace jhipster
 }
