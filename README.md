@@ -1,6 +1,5 @@
 # Sample JDL files for JHipster v8
 
-For updated JHipster v8 samples you should go to [v8 branch](https://github.com/jhipster/jdl-samples/tree/v8).
 
 This repository is a showcase of JDL schema files.
 
