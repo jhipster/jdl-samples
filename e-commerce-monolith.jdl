@@ -67,7 +67,7 @@ entity ProductOrder {
 }
 
 relationship OneToOne {
-    CustomerDetails{user(login) required} to User
+    CustomerDetails{user(login) required} to User with builtInEntity
 }
 
 relationship ManyToOne {
