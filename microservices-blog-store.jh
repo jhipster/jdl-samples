@@ -72,7 +72,7 @@ entity Product {
 }
 
 relationship ManyToOne {
-  Blog{user(login)} to User,
+  Blog{user(login)} to User with builtInEntity,
   Post{blog(name)} to Blog
 }
 
