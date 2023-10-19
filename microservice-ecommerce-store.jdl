@@ -113,7 +113,7 @@ enum OrderItemStatus {
 }
 
 relationship OneToOne {
-    Customer{user(login) required} to User
+    Customer{user(login) required} to User with builtInEntity
 }
 
 relationship ManyToOne {
