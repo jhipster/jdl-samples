@@ -1,0 +1,371 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: workspace 
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: cleanup-workspace
+spec:
+  steps:
+    - args:
+        - '-c'
+        - rm -rf $(workspaces.source.path)/
+      command:
+        - /bin/bash
+        - '-c'
+      computeResources: {}
+      image: 'registry.access.redhat.com/ubi8-micro:8.8-1'
+      name: cleanup-workspace
+      workingDir: $(workspaces.source.path)
+  workspaces:
+    - mountPath: /workspace/source
+      name: source
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: pyhipster-generator
+spec:
+  description: |-
+    Generate JDL from JDL_CONTENTS params.
+    Generate PyHipster project from JDL file.
+    Generate GitLab Repository whit the result of a project. (required GitLab Access Token).
+    Added devfile.yaml to the project.
+  params:
+    - default: $(params.JDL_CONTENTS)
+      description: |
+        Contents of the JDL file to create. https://www.jhipster.tech/jdl/getting-started
+      name: JDL_CONTENTS
+      type: string
+    - default: $(params.APP_NAME)
+      description: |
+        app name. delivery by default
+      name: APP_NAME
+      type: string
+    - default: $(params.JHIPSTER_IMAGE_VERSION)
+      description: |
+        pyhipster docker image version. By default docker.io./pyhipster/pyhipster:0.0.9
+      name: JHIPSTER_IMAGE_VERSION
+      type: string
+    - default: $(params.GITLAB_REPO)
+      description: |
+        The output repository to use for the git push step.
+      name: GITLAB_REPO
+      type: string
+    - default: $(params.GITLAB_EMAIL)
+      description: |
+        GitLab User account.        
+      name: GITLAB_EMAIL
+      type: string
+    - default: $(params.GITLAB_USERNAME)
+      description: |
+        GitLab User account.
+      name: GITLAB_USERNAME
+      type: string
+    - default: $(params.GITLAB_ACCESSTOKEN)
+      description: |
+        Access token Gitlab. Generate in https://gitlab.com/-/user_settings/personal_access_tokens          
+      name: GITLAB_ACCESSTOKEN
+      type: string
+  steps:
+    - computeResources: {}
+      env:
+        - name: JDL_CONTENTS
+          value: $(params.JDL_CONTENTS)
+        - name: JHIPSTER_IMAGE_VERSION
+          value: $(params.JHIPSTER_IMAGE_VERSION)
+      image: $(params.JHIPSTER_IMAGE_VERSION)
+      name: generate-jdl
+      script: |
+        #!/bin/sh
+        printf '%s' "$(params.JDL_CONTENTS)" > "$(workspaces.source.path)/model.jdl"
+        cat $(workspaces.source.path)/model.jdl
+      workingDir: $(workspaces.source.path)
+    - computeResources: {}
+      env:
+        - name: JHIPSTER_IMAGE_VERSION
+          value: $(params.JHIPSTER_IMAGE_VERSION)
+        - name: GITLAB_EMAIL
+          value: $(params.GITLAB_EMAIL)
+        - name: GITLAB_USERNAME
+          value: $(params.GITLAB_USERNAME)
+      image: $(params.JHIPSTER_IMAGE_VERSION)
+      name: generate-jhipster-from-jdl
+      script: |
+        #!/bin/sh
+        wget https://raw.githubusercontent.com/maximilianoPizarro/pyhipster-devspace/main/devfile.yaml
+        git config --global --add safe.directory $(workspaces.source.path)
+        git config --global user.email $(params.GITLAB_EMAIL)
+        git config --global user.name $(params.GITLAB_USERNAME)
+        git init
+        pyhipster jdl $(workspaces.source.path)/model.jdl --no-insight
+      workingDir: $(workspaces.source.path)
+    - computeResources: {}
+      env:
+        - name: JHIPSTER_IMAGE_VERSION
+          value: $(params.JHIPSTER_IMAGE_VERSION)
+        - name: GITLAB_EMAIL
+          value: $(params.GITLAB_EMAIL)
+        - name: GITLAB_USERNAME
+          value: $(params.GITLAB_USERNAME)
+        - name: GITLAB_REPO
+          value: $(params.GITLAB_REPO)
+        - name: GITLAB_ACCESSTOKEN
+          value: $(params.GITLAB_ACCESSTOKEN)
+      image: $(params.JHIPSTER_IMAGE_VERSION)
+      name: commit-and-push-repo
+      script: |
+        #!/bin/sh
+        rm -r $(workspaces.source.path)/.git/*
+        git config --global --add safe.directory $(workspaces.source.path)
+        git config --global user.email $(params.GITLAB_EMAIL)
+        git config --global user.name $(params.GITLAB_USERNAME)      
+        git init
+        git remote add origin https://$(params.GITLAB_USERNAME):$(params.GITLAB_ACCESSTOKEN)@$(params.GITLAB_REPO)
+        git checkout -b main
+        git add .
+        git commit -m "Jhipster Tekton pipeline autogenerate project"
+        git push --set-upstream origin main
+      workingDir: $(workspaces.source.path)
+  workspaces:
+    - description: Workspace app generate.
+      mountPath: /home/pyhipster/app
+      name: source
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: jhipster-generator
+spec:
+  description: |-
+    Generate JDL from JDL_CONTENTS params.
+    Generate JHipster project from JDL file.
+    Generate GitLab Repository when a project result. (required GitLab Access Token).
+  params:
+  - default: $(params.JDL_CONTENTS)
+    description: |
+      Contents of the JDL file to create. https://www.jhipster.tech/jdl/getting-started
+    name: JDL_CONTENTS
+    type: string
+  - default: $(params.APP_NAME)
+    description: |
+      app name. delivery by default
+    name: APP_NAME
+    type: string
+  - default: $(params.JHIPSTER_IMAGE_VERSION)
+    description: |
+      jhipster docker image version. By default docker.io./jhipster/jhipster:v8.1.0
+    name: JHIPSTER_IMAGE_VERSION
+    type: string
+  - default: $(params.GITLAB_REPO)
+    name: GITLAB_REPO
+    type: string
+    description: |
+      The output repository to use for the git push step.
+  - default: $(params.GITLAB_EMAIL)
+    name: GITLAB_EMAIL
+    type: string
+    description: |
+      GitLab User account.        
+  - default: $(params.GITLAB_USERNAME)
+    name: GITLAB_USERNAME
+    type: string
+    description: |
+      GitLab User account.
+  - default: $(params.GITLAB_ACCESSTOKEN)
+    name: GITLAB_ACCESSTOKEN
+    type: string
+    description: |
+      Access token Gitlab. Generate in https://gitlab.com/-/user_settings/personal_access_tokens          
+  steps:
+  - computeResources: {}
+    env:
+    - name: JDL_CONTENTS
+      value: $(params.JDL_CONTENTS)
+    - name: JHIPSTER_IMAGE_VERSION
+      value: $(params.JHIPSTER_IMAGE_VERSION)      
+    image: $(params.JHIPSTER_IMAGE_VERSION)
+    name: generate-jdl
+    script: |
+      #!/bin/sh
+      printf '%s' "$(params.JDL_CONTENTS)" > "$(workspaces.source.path)/model.jdl"
+      cat $(workspaces.source.path)/model.jdl
+    workingDir: $(workspaces.source.path)
+  - computeResources: {}
+    name: generate-jhipster-from-jdl
+    image: $(params.JHIPSTER_IMAGE_VERSION)
+    env:
+    - name: JHIPSTER_IMAGE_VERSION
+      value: $(params.JHIPSTER_IMAGE_VERSION)
+    - name: GITLAB_EMAIL
+      value: $(params.GITLAB_EMAIL)
+    - name: GITLAB_USERNAME
+      value: $(params.GITLAB_USERNAME)  
+    script: |
+      #!/bin/sh
+      wget https://raw.githubusercontent.com/maximilianoPizarro/jhipster-devspace/master/devfile.yaml
+      git config --global --add safe.directory $(workspaces.source.path)
+      git config --global user.email $(params.GITLAB_EMAIL)
+      git config --global user.name $(params.GITLAB_USERNAME)
+      git init
+      jhipster jdl $(workspaces.source.path)/model.jdl --no-insight
+      ./mvnw clean verify -Pprod -Dmaven.test.skip=true
+    workingDir: $(workspaces.source.path)
+  - computeResources: {}
+    name: commit-and-push-repo
+    image: $(params.JHIPSTER_IMAGE_VERSION)
+    env:
+    - name: JHIPSTER_IMAGE_VERSION
+      value: $(params.JHIPSTER_IMAGE_VERSION)
+    - name: GITLAB_EMAIL
+      value: $(params.GITLAB_EMAIL)
+    - name: GITLAB_USERNAME
+      value: $(params.GITLAB_USERNAME)
+    - name: GITLAB_REPO
+      value: $(params.GITLAB_REPO)
+    - name: GITLAB_ACCESSTOKEN
+      value: $(params.GITLAB_ACCESSTOKEN)              
+    script: |
+      #!/bin/sh
+      rm -r $(workspaces.source.path)/.git/*
+      git config --global --add safe.directory $(workspaces.source.path)
+      git config --global user.email $(params.GITLAB_EMAIL)
+      git config --global user.name $(params.GITLAB_USERNAME)      
+      git init
+      git remote add origin https://$(params.GITLAB_USERNAME):$(params.GITLAB_ACCESSTOKEN)@$(params.GITLAB_REPO)
+      git checkout -b main
+      git add .
+      git commit -m "Jhipster Tekton pipeline autogenerate project"
+      git push --set-upstream origin main
+    workingDir: $(workspaces.source.path)    
+  workspaces:
+  - description: Workspace app generate.
+    mountPath: /home/jhipster/app
+    name: source
+  - description: .m2 cache.
+    mountPath: /home/jhipster/.m2
+    name: m2
+---
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: jhipster-pyhipster-generator-pipeline
+spec:
+  finally:
+    - name: cleanup-workspace
+      taskRef:
+        kind: Task
+        name: cleanup-workspace
+      workspaces:
+        - name: source
+          workspace: workspace
+  params:
+    - default: jhipster
+      description: Genrate with JHipster or PyHipster?. jhipster | pyhipster
+      name: GENERATOR
+      type: string  
+    - default: 'docker.io/jhipster/jhipster:v8.1.0'
+      description: |
+        JHipster: docker.io/jhipster/jhipster:v8.1.0 | PyHipster: docker.io./pyhipster/pyhipster:0.0.9 
+      name: JHIPSTER_IMAGE_VERSION
+      type: string
+    - default: delivery
+      description: |
+        app name.      
+      name: APP_NAME
+      type: string
+    - default: "application {   config {   \tapplicationType monolith     baseName delivery     packageName com.delivery.app     authenticationType jwt     prodDatabaseType mariadb     databaseType sql     devDatabaseType h2Memory     buildTool maven     clientFramework vue     clientTheme solar     clientThemeVariant dark     enableTranslation true     nativeLanguage es     languages [en, nl]   }   entities * }    entity Region { \tregionName String }  entity Country { \tcountryName String }  // an ignored comment /** not an ignored comment */ entity Location { \tstreetAddress String \tpostalCode String \tcity String \tstateProvince String }  entity Department { \tdepartmentName String required }  /**  * Task entity.  * @author The JHipster team.  */ entity Task { \ttitle String \tdescription String }  /**  * The Employee entity.  */ entity Employee { \t/** \t* The firstname attribute. \t*/ \tfirstName String \tlastName String \temail String \tphoneNumber String \thireDate Instant \tsalary Long \tcommissionPct Long }  entity Job { \tjobTitle String \tminSalary Long \tmaxSalary Long }  entity JobHistory { \tstartDate Instant \tendDate Instant \tlanguage Language }  enum Language {     FRENCH, ENGLISH, SPANISH }  relationship OneToOne { \tCountry{region} to Region }  relationship OneToOne { \tLocation{country} to Country }  relationship OneToOne { \tDepartment{location} to Location }  relationship ManyToMany { \tJob{task(title)} to Task{job} }  // defining multiple OneToMany relationships with comments relationship OneToMany { \tEmployee to Job{employee} \t/** \t* A relationship \t*/ \tDepartment to \t/** \t* Another side of the same relationship \t*/ \tEmployee{department} }  relationship ManyToOne { \tEmployee{manager} to Employee }  // defining multiple oneToOne relationships relationship OneToOne { \tJobHistory{job} to Job \tJobHistory{department} to Department \tJobHistory{employee} to Employee }  // Set pagination options paginate JobHistory, Employee with infinite-scroll paginate Job with pagination  // Use Data Transfer Objects (DTO) // dto * with mapstruct  // Set service options to all except few service all with serviceImpl except Employee, Job"
+      description: |
+        Contents of the JDL file to create. https://www.jhipster.tech/jdl/getting-started           
+      name: JDL_CONTENTS
+      type: string
+    - default: gitlab.com/maximilianoPizarro/app.git
+      description: |
+        The output repository to use for the git push step.
+      name: GITLAB_REPO
+      type: string
+    - default: maximiliano.pizarro.5@gmail.com
+      description: |
+        GitLab User account.        
+      name: GITLAB_EMAIL
+      type: string
+    - default: maximilianoPizarro
+      description: |
+        GitLab User account.
+      name: GITLAB_USERNAME
+      type: string
+    - default: <your-access-token-value>
+      description: |
+        Access token Gitlab. Generate in https://gitlab.com/-/user_settings/personal_access_tokens                                       
+      name: GITLAB_ACCESSTOKEN
+      type: string
+  tasks:
+    - name: jhipster-generator
+      params:
+        - name: contents
+          value: "application {   config {   \tapplicationType monolith     baseName delivery     packageName com.delivery.app     authenticationType jwt     prodDatabaseType mariadb     databaseType sql     devDatabaseType h2Memory     buildTool maven     clientFramework vue     clientTheme solar     clientThemeVariant dark     enableTranslation true     nativeLanguage es     languages [en, nl]   }   entities * }    enum CategoryStatus {     AVAILABLE, RESTRICTED, DISABLED }  entity Category {     description String required,     sortOrder Integer,     dateAdded LocalDate,     dateModified LocalDate,     status CategoryStatus }  entity Product {     title String required,     keywords String,     description String,     rating Integer,     dateAdded LocalDate,     dateModified LocalDate }  entity Customer { \tfirstName String,     lastName String,     email String,     telephone String }  entity Address {     address1 String,     address2 String,     city String,     postcode String required maxlength(10),     country String required maxlength(2) }  entity WishList { \ttitle String required,     restricted Boolean }  relationship OneToMany {     Customer{wishList(title)} to WishList{customer},     WishList{product(title)} to Product{wishList},     Customer{address} to Address{customer} }  relationship ManyToOne { \tCategory{parent} to Category }  relationship ManyToMany { \tCategory{product(title)} to Product{category} }  paginate Customer, Product, Category with pagination paginate Address with pagination paginate Product with infinite-scroll  service Category with serviceClass"
+        - name: APP_NAME
+          value: $(params.APP_NAME)
+        - name: JDL_CONTENTS
+          value: $(params.JDL_CONTENTS)
+        - name: JHIPSTER_IMAGE_VERSION
+          value: $(params.JHIPSTER_IMAGE_VERSION)
+        - name: GITLAB_REPO
+          value: $(params.GITLAB_REPO)
+        - name: GITLAB_EMAIL
+          value: $(params.GITLAB_EMAIL)
+        - name: GITLAB_USERNAME
+          value: $(params.GITLAB_USERNAME)
+        - name: GITLAB_ACCESSTOKEN
+          value: $(params.GITLAB_ACCESSTOKEN)
+      taskRef:
+        kind: Task
+        name: jhipster-generator
+      when:
+        - input: $(params.GENERATOR)
+          operator: in
+          values:
+            - jhipster
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: m2
+          workspace: workspace
+    - name: pyhipster-generator
+      params:
+        - name: JDL_CONTENTS
+          value: $(params.JDL_CONTENTS)
+        - name: APP_NAME
+          value: $(params.APP_NAME)
+        - name: JHIPSTER_IMAGE_VERSION
+          value: $(params.JHIPSTER_IMAGE_VERSION)
+        - name: GITLAB_REPO
+          value: $(params.GITLAB_REPO)
+        - name: GITLAB_EMAIL
+          value: $(params.GITLAB_EMAIL)
+        - name: GITLAB_USERNAME
+          value: $(params.GITLAB_USERNAME)
+        - name: GITLAB_ACCESSTOKEN
+          value: $(params.GITLAB_ACCESSTOKEN)
+      taskRef:
+        kind: Task
+        name: pyhipster-generator
+      when:
+        - input: $(params.GENERATOR)
+          operator: in
+          values:
+            - pyhipster
+      workspaces:
+        - name: source
+          workspace: workspace
+  workspaces:
+    - name: workspace
