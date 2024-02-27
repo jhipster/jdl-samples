@@ -8,9 +8,9 @@ Run `jhipster jdl myfile.jdl filename.jdl` just pass any file name from this rep
 
 It's possible to customize the generated project by passing options `jhipster jdl default.jdl --client-framework vue --build gradle`. Run `jhipster app --help` for more choices.
 
-## JHipster & PyHipster Generator Tekton Pipeline try JDL in OpenShift Dev Spaces
+## Try Sample JDL in OpenShift Dev Spaces
 
-(Oficial JHipster v8.1.0 & PyHipster 0.0.9)
+### JHipster & PyHipster Generator Tekton Pipeline (Oficial JHipster v8.1.0 & PyHipster 0.0.9)
 
 <p align="left">
   <img src="https://github.com/maximilianoPizarro/jhipster-devspace/blob/master/screenshot/jhipster-generator-dockerio-jhipster.PNG?raw=true" width="684" title="Run On Openshift">
