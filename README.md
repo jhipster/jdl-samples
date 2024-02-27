@@ -8,7 +8,9 @@ Run `jhipster jdl myfile.jdl filename.jdl` just pass any file name from this rep
 
 It's possible to customize the generated project by passing options `jhipster jdl default.jdl --client-framework vue --build gradle`. Run `jhipster app --help` for more choices.
 
-## JHipster & PyHipster Generator Tekton Pipeline (Oficial JHipster v8.1.0 & PyHipster 0.0.9)
+## JHipster & PyHipster Generator Tekton Pipeline try JDL in OpenShift Dev Spaces
+
+(Oficial JHipster v8.1.0 & PyHipster 0.0.9)
 
 <p align="left">
   <img src="https://github.com/maximilianoPizarro/jhipster-devspace/blob/master/screenshot/jhipster-generator-dockerio-jhipster.PNG?raw=true" width="684" title="Run On Openshift">
@@ -17,7 +19,7 @@ It's possible to customize the generated project by passing options `jhipster jd
   <img src="https://github.com/maximilianoPizarro/jhipster-devspace/blob/master/screenshot/jhipster-generator-dockerio-pyhipster.PNG?raw=true" width="684" title="Run On Openshift">
 </p>
 
-## Install JHipster DevSpace on OpenShift Dev Spaces
+### Install JHipster & PyHipster Generator on OpenShift Dev Spaces
 
 1. Login with your Red Hat Account. https://console.redhat.com/openshift/sandbox. Select "OpenShift Dev Spaces".
 
@@ -73,7 +75,7 @@ https://gitlab.com/-/user_settings/personal_access_tokens
   <img src="https://github.com/maximilianoPizarro/jhipster-devspace/blob/master/screenshot/jhipster-generator-dockerio-push.PNG?raw=true" width="684" title="Run On Openshift">
 </p>
 
-6. Check your GitLab Repository to see if the app was created
+6. Check your GitLab Repository to see if the app was created.
 <p align="left">
   <img src="https://github.com/maximilianoPizarro/jhipster-devspace/blob/master/screenshot/jhipster-generator-dockerio-gitlab.PNG?raw=true" width="684" title="Run On Openshift">
 </p>
@@ -81,7 +83,7 @@ https://gitlab.com/-/user_settings/personal_access_tokens
 NOTE: Custom tasks "cleanup-workspace" fail but work because remove all files from directory workspace and don't remove mountpath.
 
 
-6. Open your project autognerate in a new DevSpace workspace, build and run project in dev mode
+6. Open your new project autogerate in a new DevSpace workspace, build and run project in dev mode.
 <p align="left">
   <img src="https://raw.githubusercontent.com/maximilianoPizarro/pyhipster-devspace/main/screenshot/pyhipster-terminal-run.PNG" width="684" title="Run On Openshift">
 </p>
