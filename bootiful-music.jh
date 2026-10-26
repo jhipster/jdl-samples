@@ -4,8 +4,6 @@ application {
     applicationType monolith,
     packageName com.jhipster.demo.bootifulmusic,
     databaseType neo4j,
-    devDatabaseType neo4j,
-    prodDatabaseType neo4j,
     enableHibernateCache false,
     testFrameworks [cypress]
   }

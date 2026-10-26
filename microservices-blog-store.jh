@@ -40,8 +40,6 @@ application {
     applicationType microservice
     authenticationType oauth2
     databaseType mongodb
-    devDatabaseType mongodb
-    prodDatabaseType mongodb
     enableHibernateCache false
     searchEngine elasticsearch
     serverPort 8082
