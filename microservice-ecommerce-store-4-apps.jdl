@@ -59,8 +59,6 @@ application {
     serviceDiscoveryType consul
     authenticationType jwt
     databaseType mongodb
-    prodDatabaseType mongodb
-    devDatabaseType mongodb
     cacheProvider no
     enableHibernateCache false
     buildTool gradle
